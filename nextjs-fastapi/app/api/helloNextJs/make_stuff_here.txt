@@ -1,0 +1,1 @@
+in api folder make ur next.js app
