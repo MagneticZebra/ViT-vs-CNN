@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ML Model Comparison</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <h1>ML Model Project</h1>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="tool.html" class="active">ML Comparison Tool</a></li>
+                <li><a href="developers.html">Developers</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main class="content">
+        <div class="container">
+            <div class="upload-section">
+                <h2>Upload an Image</h2>
+                <div class="drag-drop" id="dragDrop">
+                    <div class="icon" id="uploadIcon">📁</div>
+                    <p id="uploadText">Drag & Drop your image here or click to upload</p>
+                    <input type="file" id="imageUpload" accept="image/*">
+                    <div class="progress-bar" id="progressBar" style="display: none;">
+                        <div class="progress" id="progress"></div>
+                    </div>
+                </div>
+                <button id="removeImage" style="display: none;">Remove Image</button>
+            </div>
+
+            <div class="model-selection">
+                <h2>Select a Model</h2>
+                <div class="select-container">
+                    <select id="modelSelector">
+                        <option value="convnet">ConvNet Model</option>
+                        <option value="transformer">Transformer Model</option>
+                    </select>
+                </div>
+                <button id="analyzeButton">Analyze Image</button>
+            </div>        
+
+            <div class="result-section" id="resultSection" style="display: none;">
+                <h2>Result</h2>
+                <p class="result" id="resultText">Prediction: <span id="prediction"></span></p>
+                <p>Confidence: <span id="confidence"></span>%</p>
+            </div>
+
+            <div class="feedback-section" id="feedbackSection" style="display: none;">
+                <h2>Was this prediction accurate?</h2>
+                <div class="feedback-buttons">
+                    <button id="thumbsUp">👍 Yes</button>
+                    <button id="thumbsDown">👎 No</button>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        &copy; 2024 ML Project - Designed by White, Brown, Sid, Huz, and Robe
+    </footer>
+    <script src="js/script.js"></script>
+</body>
+</html>
