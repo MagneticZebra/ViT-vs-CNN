@@ -55,17 +55,102 @@ body {
     color: #BB86FC;
 }
 
-/* Main Container */
-.container {
-    background: #ffffff; /* White background for contrast */
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    padding: 20px;
-    max-width: 600px;
-    width: 90%;
-    text-align: center;
-    color: #333; /* Dark text color */
+
+.container-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    max-width: 100%;
+    margin: 0 auto;
+    transition: transform 0.5s ease; /* Smooth transition for container movement */
 }
+
+.upload-container {
+    transform: translateX(0); /* Reset to original position */
+    transition: transform 0.5s ease; /* Smooth transition */
+}
+
+.result-container {
+    display: none; /* Hide result container by default */
+}
+
+
+.container {
+    background: #1C1C1C;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    width: 400px;
+    height: 450px;
+    text-align: center;
+    transition: transform 0.5s ease;
+}
+
+.upload-container {
+    margin-right: 10px;
+}
+
+.result-container {
+    background: #1C1C1C;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    width: 400px; /* Matches the upload container width */
+    height: 450px; /* Matches the upload container height */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+
+.result-details img {
+    max-width: 100%; /* Ensures the image never overflows horizontally */
+    max-height: 100%; /* Ensures the image fits vertically */
+    object-fit: contain; /* Maintains aspect ratio and fits within the container */
+    border-radius: 5px; /* Optional: adds rounded corners */
+    margin: 10px 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Optional: adds a subtle shadow */
+}
+
+
+.result-details p {
+    font-size: 1.2em;
+    margin: 10px 0;
+}
+
+.feedback-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.feedback-button {
+    background-color: #292929;
+    color: #E0E0E0;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.feedback-button:hover {
+    background-color: #BB86FC;
+    color: #121212;
+    transform: scale(1.1);
+}
+
+.feedback-button:disabled {
+    background-color: #444;
+    color: #888;
+    cursor: not-allowed;
+}
+
 
 /* Main Content */
 .content {
@@ -84,14 +169,11 @@ body {
 
 /* Footer */
 footer {
-    text-align: center;
-    color: #666;
-    padding: 10px 0;
-    font-size: 0.9em;
     background-color: #1F1F1F;
-    position: relative;
-    bottom: 0;
-    width: 100%;
+    color: #E0E0E0;
+    text-align: center;
+    padding: 10px 20px;
+    font-size: 0.9em;
     margin-top: auto;
 }
 
@@ -247,4 +329,45 @@ button {
 button:hover {
     background-color: #45a049;
 }
+
+/*Graphs*/
+.graphs-section {
+    margin-top: 100px; /* Spacing from the voting section */
+    padding: 20px;
+    background-color: #1F1F1F;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    width: 100%; /* Take up the entire width of the page */
+    box-sizing: border-box; /* Include padding in the width calculation */
+}
+
+.graph-container {
+    display: flex; /* Use flexbox for side-by-side layout */
+    justify-content: space-evenly; /* Space out the graphs evenly */
+    gap: 30px; /* Add spacing between the graphs */
+    flex-wrap: wrap; /* Wrap to the next line on smaller screens */
+    align-items: center; /* Align graphs vertically */
+}
+
+.model-graph {
+    flex: 1 1 45%; /* Each graph takes up 45% of the row */
+    max-width: 600px; /* Prevent graphs from becoming too wide */
+    text-align: center;
+}
+
+canvas {
+    width: 100%; /* Graphs fill their container width */
+    height: 400px; /* Adjust graph height for better visibility */
+    background-color: #292929;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.model-graph p {
+    margin-top: 10px; /* Spacing below each graph */
+    font-size: 1.4em; /* Larger font for accuracy percentage */
+    color: #BB86FC;
+}
+
+
 
