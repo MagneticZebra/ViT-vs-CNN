@@ -106,8 +106,8 @@ body {
 }
 
 .profile-icon {
-    font-size: 60px; /* Size of the icon */
-    color: #BB86FC; /* Matches the theme */
+    font-size: 60px; 
+    color: #BB86FC; 
     margin: 0 auto 15px;
 }
 
@@ -132,4 +132,21 @@ footer {
     padding: 10px 20px;
     font-size: 0.9em;
     margin-top: auto;
+}
+
+/* ------------------------- Cool cursor effect ---------------------------- */
+.team-intro p::after {
+    content: "|";
+    animation: blink 0.7s steps(2, start) infinite;
+    color: #BB86FC; 
+    font-weight: bold;
+}
+
+@keyframes blink {
+    0%, 50% {
+        opacity: 1;
+    }
+    51%, 100% {
+        opacity: 0;
+    }
 }

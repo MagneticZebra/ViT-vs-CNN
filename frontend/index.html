@@ -67,5 +67,39 @@
     <footer>
         <p>&copy; 2024 ML Project - Designed by White, Brown, Sid, Huz, and Robe</p>
     </footer>
+
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script>
+        // Initialize ScrollReveal
+        const sr = ScrollReveal({
+            distance: '50px',
+            duration: 800,
+            easing: 'ease-in-out',
+            reset: false, // Elements re-animate when scrolling back
+        });
+
+        // Apply animations to different sections
+        sr.reveal('.hero-content', {
+            origin: 'bottom',
+            interval: 200, // Delay between elements in a group
+        });
+
+        sr.reveal('.features-grid .feature-item', {
+            origin: 'left',
+            interval: 300,
+        });
+
+        sr.reveal('.about h3, .about p', {
+            origin: 'right',
+            interval: 200,
+        });
+
+        sr.reveal('.call-to-action h3, .call-to-action p, .call-to-action .button', {
+            origin: 'bottom',
+            interval: 150,
+        });
+
+    </script>
+
 </body>
 </html>

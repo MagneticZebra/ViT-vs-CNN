@@ -61,5 +61,59 @@
     <footer>
         <p>&copy; 2024 ML Project - Designed by White, Brown, Sid, Huz, and Robe</p>
     </footer>
+
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script>
+        // Initialize ScrollReveal
+        const sr = ScrollReveal({
+            distance: '50px',
+            duration: 800,
+            easing: 'ease-in-out',
+            reset: false, // Elements re-animate when scrolling back up
+        });
+
+        // Animate the intro section
+        sr.reveal('.team-intro h2', {
+            origin: 'bottom',
+            interval: 200,
+        });
+        sr.reveal('.team-intro p', {
+            origin: 'bottom',
+            interval: 300,
+        });
+
+        // Animate the team grid
+        sr.reveal('.team-grid .team-member', {
+            origin: 'left',
+            interval: 200, // Delay between elements
+        });
+
+        function typeEffect(element, text, delay = 50) {
+            let index = 0;
+
+            function type() {
+                if (index < text.length) {
+                    element.textContent += text[index];
+                    index++;
+                    const dynamicDelay = Math.random() * delay + 10;
+                    setTimeout(type, dynamicDelay);
+                }
+            }
+
+            type();
+        }
+
+
+        // typing effect to the team intro paragraph
+        document.addEventListener("DOMContentLoaded", () => {
+            const introParagraph = document.querySelector(".team-intro p");
+            const introText = "Our team is composed of talented individuals passionate about Machine Learning and technology. Together, we've built a project to showcase the capabilities of ConvNet and Transformer models.";
+            
+            introParagraph.textContent = ""; // Clear initial content
+            typeEffect(introParagraph, introText, 50);
+        });
+
+
+    </script>
 </body>
 </html>
