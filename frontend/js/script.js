@@ -130,8 +130,8 @@ document.getElementById("analyzeButton").addEventListener("click", () => {
     const modelUsed = document.getElementById("modelUsed");
 
     uploadedImage.src = URL.createObjectURL(imageUpload);
-    prediction.textContent = "Cat"; // Replace with actual prediction
-    confidence.textContent = "95"; // Replace with actual confidence score
+    prediction.textContent = "Cat"; // ---------- Replace with actual prediction
+    confidence.textContent = "95"; // ----------- Replace with actual confidence score
     modelUsed.textContent =
       modelSelector === "convnet" ? "ConvNet" : "Transformer";
 
@@ -188,7 +188,6 @@ document.getElementById("removeImage").addEventListener("click", () => {
   // Reset containers
   const uploadContainer = document.querySelector(".upload-container");
   const resultContainer = document.querySelector(".result-container");
-  const arrow = document.getElementById("arrow");
   const feedbackSection = document.getElementById("feedbackSection");
 
   // Reset positions and visibility
@@ -292,22 +291,3 @@ function updateGraph(model, correct) {
     model === "convnet" ? "ConvNet" : "Transformer"
   }: Right ${accuracy.toFixed(2)}% of the time`;
 }
-
-// Event Listeners for Feedback
-document.getElementById("thumbsUp").addEventListener("click", () => {
-  if (!feedbackGiven) {
-    const selectedModel = document.getElementById("modelSelector").value;
-    updateGraph(selectedModel, true); // User indicates the model was correct
-    feedbackGiven = true;
-  }
-});
-
-document.getElementById("thumbsDown").addEventListener("click", () => {
-  if (!feedbackGiven) {
-    const selectedModel = document.getElementById("modelSelector").value;
-    updateGraph(selectedModel, false); // User indicates the model was incorrect
-    feedbackGiven = true;
-  }
-});
-
-updateGraph();
