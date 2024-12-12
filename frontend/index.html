@@ -3,44 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ML Model Comparison</title>
-    <link rel="stylesheet" href="style.css">
+    <title>ML Project Home</title>
+    <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
-    <header>ML Model Comparison Tool</header>
-    <div class="container">
-        <div class="upload-section">
-            <h2>Upload an Image</h2>
-            <input type="file" id="imageUpload" accept="image/*">
-        </div>
-
-        <div class="model-selection">
-            <h2>Select a Model</h2>
-            <select id="modelSelector">
-                <option value="convnet">ConvNet Model</option>
-                <option value="transformer">Transformer Model</option>
-            </select>
-            <button id="analyzeButton">Analyze Image</button>
-        </div>
-
-        <div class="result-section" id="resultSection" style="display:none;">
-            <h2>Result</h2>
-            <p class="result" id="resultText">Prediction: <span id="prediction"></span></p>
-            <p>Confidence: <span id="confidence"></span>%</p>
-        </div>
-
-        <div class="feedback-section" id="feedbackSection" style="display:none;">
-            <h2>Was this prediction accurate?</h2>
-            <div class="feedback-buttons">
-                <button id="thumbsUp">👍 Yes</button>
-                <button id="thumbsDown">👎 No</button>
+    <header>
+        <nav class="navbar">
+            <h1>ML Model Project</h1>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="tool.html">ML Comparison Tool</a></li>
+                <li><a href="developers.html">Developers</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h2>Welcome to Our Machine Learning Project</h2>
+                <p>
+                    Dive into the world of Machine Learning! Our project compares two advanced ML models: ConvNet and Transformer.
+                    Upload images, explore predictions, and see which model outperforms.
+                </p>
+                <a href="tool.html" class="button">Try the ML Tool</a>
             </div>
-        </div>
-    </div>
+        </section>
 
+        <section class="features">
+            <h3>Project Highlights</h3>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <h4>Interactive Platform</h4>
+                    <p>Upload your images and interact with our models for real-time predictions.</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Model Comparison</h4>
+                    <p>Compare ConvNet and Transformer models to see their strengths and weaknesses.</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Real Feedback</h4>
+                    <p>Your feedback helps us track model performance and refine their accuracy.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="about">
+            <h3>About Our Project</h3>
+            <p>
+                Machine Learning is revolutionizing technology, and we're here to showcase its potential. Our project
+                demonstrates the predictive power of two ML giants: Convolutional Neural Networks and Transformers.
+            </p>
+            <p>
+                Join us on this journey to explore cutting-edge technology and help us improve by providing valuable feedback.
+            </p>
+        </section>
+
+        <section class="call-to-action">
+            <h3>Get Started Now</h3>
+            <p>Click below to start using our ML Comparison Tool and see Machine Learning in action!</p>
+            <a href="tool.html" class="button">Start Exploring</a>
+        </section>
+    </main>
     <footer>
-        &copy; 2024 ML Project - Made by David White, David Brown, Sid, Huz, and Robe
+        <p>&copy; 2024 ML Project - Designed by White, Brown, Sid, Huz, and Robe</p>
     </footer>
-    <script src="script.js"></script>
 </body>
 </html>
