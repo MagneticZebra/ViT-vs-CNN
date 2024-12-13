@@ -1,12 +1,14 @@
 from api.main import app
-from fastapi import Request
+# from fastapi import Request
+from fastapi import UploadFile, File, HTTPException
+import os
 
 app.post("/api/upload")
-async def upload(request: Request):
+async def upload(file: UploadFile = File(...)):
     """
     Request object
     {
-        image: base64 string
+        file: uploaded file
     }
 
     Response object
@@ -15,5 +17,13 @@ async def upload(request: Request):
     }
     """
 
-    body = await request.json()
-    image_base64 = body.get("image")
+    try: 
+        print("Uploaded file name:", file.filename)
+        parent_directory = os.path.dirname(os.path.dirname(__file__))
+        save_path = os.path.join(parent_directory, file.filename)
+        with open(save_path, "wb") as f:
+            f.write(await file.read())
+        
+        return {"success": True}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail={"message": f"Error uploading image: {str(e)}", "success": False})

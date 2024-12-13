@@ -1,17 +1,19 @@
 # Use the official Python base image
-FROM python:3.11.5
+FROM python:3.10.16
 
 # Set the working directory inside the container
 WORKDIR /api
 
-# Copy the requirements file from the parent directory to the working directory
-COPY ../requirements.txt .
+# ARG REQUIREMENTS_FILE=requirements.txt
 
+# # Copy the requirements file from the parent directory to the working directory
+# COPY ${REQUIREMENTS_FILE} /api//requirements.txt
+
+COPY . .
 # Install the project dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install -r api/requirements.txt
 
 # Copy the entire API folder to the working directory
-COPY ./api .
 
 # Expose the port on which the FastAPI server will run
 EXPOSE 8000
