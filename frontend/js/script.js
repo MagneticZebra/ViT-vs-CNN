@@ -171,7 +171,7 @@ const uploadFile = async () => {
     });
 
     if (!response.ok) {
-      throw new Error(`Server Error: ${response.status}`);
+      throw new Error(`Server Error: ${response.status}`); 
     }
 
     const data = await response.json();
