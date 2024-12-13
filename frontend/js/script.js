@@ -132,6 +132,7 @@ document.getElementById("analyzeButton").addEventListener("click", () => {
 const uploadFile = async () => {
   const fileInput = document.querySelector("#imageUpload");
   const file = fileInput.files[0];
+  const modelSelector = document.getElementById("modelSelector");
 
   if (!file) {
     Swal.fire({
@@ -153,6 +154,7 @@ const uploadFile = async () => {
 
   const formData = new FormData();
   formData.append("file", file);
+  formData.append("model", modelSelector.value);
 
   try {
     Swal.fire({
@@ -168,10 +170,10 @@ const uploadFile = async () => {
       method: "POST",
       body: formData,
       mode: "no-cors",
-    });
-
+    })
+    console.log(response);
     if (!response.ok) {
-      throw new Error(`Server Error: ${response.status}`); 
+      throw new Error(`Server Error: ${response.status}`);
     }
 
     const data = await response.json();
