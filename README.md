@@ -1,6 +1,6 @@
 # 🧠 ML Model Comparison Tool
 
-Welcome to the **ML Model Comparison Tool**, an interactive platform designed to showcase and compare the power of **Convolutional Neural Networks (ConvNet)** and **Transformer models**. This project offers an engaging way to dive into machine learning by uploading images, analyzing predictions, and comparing model performances.
+Welcome to the **ML Model Comparison Tool**, an interactive platform designed to showcase and compare the power of the **Convolutional Neural Networks (ConvNet)** and **Transformer models**. This project offers an engaging way to dive into machine learning by uploading images, analyzing predictions, and comparing model performances.
 
 ---
 
@@ -8,7 +8,7 @@ Welcome to the **ML Model Comparison Tool**, an interactive platform designed to
 
 - **Interactive Image Upload**:
    - Drag-and-drop or select images with seamless validation.
-   - Only supports **JPG** images to maintain consistent results.
+   - Only supports **JPG** images to maintain consistent results across the model.
 - **Model Selection**:
    - Choose between **ConvNet** and **Transformer** for analysis.
 - **Real-Time Predictions**:
