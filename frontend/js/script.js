@@ -44,6 +44,39 @@ function enableUpload() {
   progressBar.style.display = "none"; // Hide progress bar
 }
 
+const dragDropArea = document.getElementById("dragDrop");
+
+dragDropArea.addEventListener("drop", (event) => {
+  event.preventDefault();
+  event.stopPropagation();
+
+  const file = event.dataTransfer.files[0]; // Get the dropped file
+  if (!file) {
+      Swal.fire({
+          icon: "error",
+          title: "No File Detected",
+          text: "Please drop a valid file.",
+      });
+      return; 
+  }
+
+  const fileType = file.type;
+  if (fileType !== "image/jpeg") {
+      Swal.fire({
+          icon: "error",
+          title: "Invalid File",
+          text: "Only JPG files are allowed. Please upload a valid JPG image.",
+      });
+      return; 
+  }
+
+  // If the file is valid, proceed as normal
+  imageUpload.files = event.dataTransfer.files;
+  simulateProgress(() => {
+      disableUpload();
+  });
+});
+
 dragDrop.addEventListener("dragover", (event) => {
   event.preventDefault();
   dragDrop.style.backgroundColor = "#e9e9e9";
@@ -53,17 +86,17 @@ dragDrop.addEventListener("dragleave", () => {
   dragDrop.style.backgroundColor = "#f9f9f9";
 });
 
-dragDrop.addEventListener("drop", (event) => {
-  event.preventDefault();
-  dragDrop.style.backgroundColor = "#f9f9f9";
-  const file = event.dataTransfer.files[0];
-  if (file) {
-    imageUpload.files = event.dataTransfer.files;
-    simulateProgress(() => {
-      disableUpload();
-    });
-  }
-});
+// dragDrop.addEventListener("drop", (event) => {
+//   event.preventDefault();
+//   dragDrop.style.backgroundColor = "#f9f9f9";
+//   const file = event.dataTransfer.files[0];
+//   if (file) {
+//     imageUpload.files = event.dataTransfer.files;
+//     simulateProgress(() => {
+//       disableUpload();
+//     });
+//   }
+// });
 
 imageUpload.addEventListener("change", () => {
   const file = imageUpload.files[0];
@@ -73,6 +106,7 @@ imageUpload.addEventListener("change", () => {
     });
   }
 });
+
 
 removeButton.addEventListener("click", () => {
   // Re-enable upload functionality
@@ -100,6 +134,8 @@ removeButton.addEventListener("click", () => {
   // Hide the "Remove Image" button
   removeButton.style.display = "none";
 });
+
+// ----------------------------------------- Analyze Button Functionality ---------------------------------------------------
 
 document.getElementById("analyzeButton").addEventListener("click", () => {
   const imageUpload = document.getElementById("imageUpload").files[0];
@@ -148,8 +184,26 @@ document.getElementById("analyzeButton").addEventListener("click", () => {
     document.getElementById("thumbsUp").disabled = false;
     document.getElementById("thumbsDown").disabled = false;
     document.getElementById("feedbackMessage").style.display = "none";
+
+    uploadedImage.onload = () => {
+      // Calculate the result container height dynamically
+      const resultContainer = document.querySelector(".result-container");
+      const imageHeight = uploadedImage.naturalHeight;
+      const baseHeight = 200; // Minimum height for text and padding
+      let adjustedHeight = baseHeight + imageHeight; // Adjust as needed
+      // Log the values to the console
+      console.log("Image Height:", imageHeight);
+      console.log("Base Height:", baseHeight);
+
+      adjustedHeight = 600;
+      console.log("Adjusted Height:", adjustedHeight);
+      resultContainer.style.height = `${adjustedHeight}px`;
+      resultContainer.style.display = "block";
+    };
   });
 });
+
+// --------------------------------------- Review Button Functionality -------------------------------------------
 
 // Handle thumbs up/down feedback
 let feedbackGiven = false;
@@ -184,6 +238,8 @@ document.getElementById("thumbsDown").addEventListener("click", () => {
   }
 });
 
+// ------------------------ Remove Image Button and Animation -------------------------------
+
 document.getElementById("removeImage").addEventListener("click", () => {
   // Reset containers
   const uploadContainer = document.querySelector(".upload-container");
@@ -193,7 +249,6 @@ document.getElementById("removeImage").addEventListener("click", () => {
   // Reset positions and visibility
   uploadContainer.style.transform = "translateX(0)";
   resultContainer.style.display = "none";
-  arrow.style.display = "none";
 
   // Reset feedback buttons
   document.getElementById("thumbsUp").disabled = false;

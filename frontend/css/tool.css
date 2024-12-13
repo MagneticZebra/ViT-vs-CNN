@@ -91,34 +91,36 @@ body {
     margin-right: 10px;
 }
 
-.result-container {
-    background: #1C1C1C;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-    width: 400px; 
-    height: 450px; 
+
+
+
+
+.image-container {
+    width: 100%; /* Full width of the container */
+    max-height: 300px; /* Define a maximum height for the image */
+    overflow: hidden; /* Ensures the image does not overflow */
+    margin-bottom: 20px; /* Add space between image and text */
     display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
-    text-align: center;
+    align-items: center;
+    border-radius: 5px;
 }
 
-
-.result-details img {
+.image-container img {
     max-width: 100%;
     max-height: 100%;
-    object-fit: contain; 
-    border-radius: 5px;
-    margin: 10px 0;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); 
+    object-fit: contain; /* Ensures the image scales properly */
 }
 
+.text-container {
+    width: 100%; /* Full width for text content */
+    color: #E0E0E0; /* Light color for text */
+    line-height: 1.5; /* Better readability */
+}
 
-.result-details p {
+.text-container p {
+    margin: 5px 0; /* Add spacing between lines */
     font-size: 1.2em;
-    margin: 10px 0;
 }
 
 .feedback-buttons {
