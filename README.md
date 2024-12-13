@@ -47,7 +47,6 @@ Welcome to the **ML Model Comparison Tool**, an interactive platform designed to
 - **Graphs**: Chart.js for real-time performance tracking
 - **Alerts**: SweetAlert2 for interactive feedback pop-ups
 - **File Validation**: Ensures only valid JPG files are processed
-- **Responsive Design**: Optimized for desktop and mobile devices
 
 ---
 
