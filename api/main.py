@@ -4,9 +4,12 @@ from transformers import ViTImageProcessor, ViTForImageClassification, BitImageP
 import torch
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import UploadFile, File, HTTPException, Request, Form
+from fastapi.responses import JSONResponse
 import os
 import pandas as pd
+import PIL
 
+os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 DEVICE = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 
 # Both ViT and BiT models classify images into one of 1000 classes from ImageNet
@@ -17,11 +20,15 @@ feature_extractor = BitImageProcessor.from_pretrained("google/bit-50")
 bit_model = BitForImageClassification.from_pretrained("google/bit-50").eval().to(DEVICE)
 
 def classify(model, processor, image):
-    inputs = processor(images=image, return_tensors="pt")
-    outputs = model(**inputs)
+    inputs = processor(images=image, return_tensors="pt")['pixel_values']
+    outputs = model(inputs.to(DEVICE))
     logits = outputs.logits
+    print(logits.shape)
     predicted_class_idx = logits.argmax(-1).item()
-    confidence = torch.nn.Softmax(logits)[predicted_class_idx]
+    print(predicted_class_idx)
+    probabilities = torch.nn.functional.softmax(logits, dim=-1).flatten()
+    print(probabilities.shape)
+    confidence = probabilities[predicted_class_idx].item()
     return predicted_class_idx, confidence
 
 app = FastAPI()
@@ -67,17 +74,23 @@ async def upload(file: UploadFile = File(...), model: str = Form(...)):
         with open(save_path, "wb") as f:
             f.write(await file.read())
 
+        image = PIL.Image.open(save_path).convert('RGB')
+
         if model == "transformer":
             print("using transformer")
-            predicted_class, confidence = classify(vit_model, processor, save_path)
+            predicted_class, confidence = classify(vit_model, processor, image)
         else:
             print("using image cnn")
-            predicted_class, confidence = classify(bit_model, feature_extractor, save_path)
+            predicted_class, confidence = classify(bit_model, feature_extractor, image)
 
-        description = get_description_by_index("../LOC_synset_mapping.txt", predicted_class)
-
-        return {"success": True, "confidence": confidence, "description": description}
+        description = get_description_by_index("LOC_synset_mapping.txt", predicted_class)
+        print(description)
+        print(predicted_class)
+        response = JSONResponse(content={"success": True, "confidence": confidence, "description": description, "ok":True}, status_code=200)
+        print(response.body)
+        return response
     except Exception as e:
+        print(str(e))
         raise HTTPException(status_code=500, detail={"message": f"Error uploading image: {str(e)}", "success": False})
 
 @app.post("/api/funny")
