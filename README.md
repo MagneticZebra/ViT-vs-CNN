@@ -18,7 +18,7 @@ Welcome to the **ML Model Comparison Tool**, an interactive platform designed to
 - **User Feedback Integration**:
    - Rate model predictions as accurate or inaccurate with thumbs-up or thumbs-down.
 - **Minimalistic Design**:
-   - Apple-inspired, sleek user interface with smooth animations.
+   - Sleek user interface with smooth animations.
 
 ---
 
