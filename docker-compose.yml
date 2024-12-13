@@ -1,0 +1,9 @@
+services:
+  fastapi-app:
+    build:
+      context: .                # Build context: parent folder
+      dockerfile: api/Dockerfile # Path to your Dockerfile
+    container_name: fastapi-container  # Optional: Name for the container
+    ports:
+      - "8000:8000"             # Map host port 8000 to container port 8000
+    restart: unless-stopped     # Restart the container if it stops
