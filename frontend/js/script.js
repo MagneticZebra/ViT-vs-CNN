@@ -50,31 +50,32 @@ dragDropArea.addEventListener("drop", (event) => {
   event.preventDefault();
   event.stopPropagation();
 
-  const file = event.dataTransfer.files[0]; // Get the dropped file
+  const file = event.dataTransfer.files[0];
   if (!file) {
-      Swal.fire({
-          icon: "error",
-          title: "No File Detected",
-          text: "Please drop a valid file.",
-      });
-      return; 
+    Swal.fire({
+      icon: "error",
+      title: "No File Detected",
+      text: "Please drop a valid file.",
+    });
+    return;
   }
 
-  const fileType = file.type;
-  if (fileType !== "image/jpeg") {
-      Swal.fire({
-          icon: "error",
-          title: "Invalid File",
-          text: "Only JPG files are allowed. Please upload a valid JPG image.",
-      });
-      return; 
+  // Validate file type
+  if (file.type !== "image/jpeg") {
+    Swal.fire({
+      icon: "error",
+      title: "Invalid File",
+      text: "Only JPG files are allowed. Please upload a valid JPG image.",
+    });
+    return;
   }
 
-  // If the file is valid, proceed as normal
-  imageUpload.files = event.dataTransfer.files;
-  simulateProgress(() => {
-      disableUpload();
-  });
+  // Simulate the file input action
+  const fileInput = document.querySelector("#imageUpload");
+  fileInput.files = event.dataTransfer.files;
+
+  // Trigger the backend upload function
+  uploadFile();
 });
 
 dragDrop.addEventListener("dragover", (event) => {
@@ -86,18 +87,6 @@ dragDrop.addEventListener("dragleave", () => {
   dragDrop.style.backgroundColor = "#f9f9f9";
 });
 
-// dragDrop.addEventListener("drop", (event) => {
-//   event.preventDefault();
-//   dragDrop.style.backgroundColor = "#f9f9f9";
-//   const file = event.dataTransfer.files[0];
-//   if (file) {
-//     imageUpload.files = event.dataTransfer.files;
-//     simulateProgress(() => {
-//       disableUpload();
-//     });
-//   }
-// });
-
 imageUpload.addEventListener("change", () => {
   const file = imageUpload.files[0];
   if (file) {
@@ -106,7 +95,6 @@ imageUpload.addEventListener("change", () => {
     });
   }
 });
-
 
 removeButton.addEventListener("click", () => {
   // Re-enable upload functionality
@@ -138,70 +126,75 @@ removeButton.addEventListener("click", () => {
 // ----------------------------------------- Analyze Button Functionality ---------------------------------------------------
 
 document.getElementById("analyzeButton").addEventListener("click", () => {
-  const imageUpload = document.getElementById("imageUpload").files[0];
-  const modelSelector = document.getElementById("modelSelector").value;
+  uploadFile();
+});
 
-  if (!imageUpload) {
+const uploadFile = async () => {
+  const fileInput = document.querySelector("#imageUpload");
+  const file = fileInput.files[0];
+
+  if (!file) {
     Swal.fire({
       icon: "error",
-      title: "Oops...",
-      text: "Please upload an image before proceeding!",
+      title: "No File Selected",
+      text: "Please select a JPG file to upload.",
     });
     return;
   }
 
-  // Simulate loading the result
-  Swal.fire({
-    title: "Analyzing...",
-    text: "Please wait while we process the image.",
-    timer: 2000,
-    didOpen: () => {
-      Swal.showLoading();
-    },
-  }).then(() => {
-    // Populate results
-    const uploadedImage = document.getElementById("uploadedImage");
-    const prediction = document.getElementById("prediction");
-    const confidence = document.getElementById("confidence");
-    const modelUsed = document.getElementById("modelUsed");
+  if (file.type !== "image/jpeg") {
+    Swal.fire({
+      icon: "error",
+      title: "Invalid File",
+      text: "Only JPG files are allowed. Please upload a valid JPG image.",
+    });
+    return;
+  }
 
-    uploadedImage.src = URL.createObjectURL(imageUpload);
-    prediction.textContent = "Cat"; // ---------- Replace with actual prediction
-    confidence.textContent = "95"; // ----------- Replace with actual confidence score
-    modelUsed.textContent =
-      modelSelector === "convnet" ? "ConvNet" : "Transformer";
+  const formData = new FormData();
+  formData.append("file", file);
 
-    // Show result container and arrow
-    document.querySelector(".upload-container").style.transform =
-      "translateX(-220px)";
+  try {
+    Swal.fire({
+      title: "Uploading...",
+      text: "Please wait while the file is being uploaded.",
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+
+    const response = await fetch("http://localhost:8000/api/upload", {
+      method: "POST",
+      body: formData,
+      mode: "no-cors",
+    });
+
+    if (!response.ok) {
+      throw new Error(`Server Error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    console.log("File uploaded successfully:", data);
+
+    // Update the UI
+    document.getElementById("uploadedImage").src = URL.createObjectURL(file);
+    document.getElementById("prediction").textContent =
+      data.prediction || "N/A";
+    document.getElementById("confidence").textContent = data.confidence || "0";
+    document.getElementById("modelUsed").textContent = data.model || "Unknown";
     document.querySelector(".result-container").style.display = "block";
 
-    // Show feedback section
-    const feedbackSection = document.getElementById("feedbackSection");
-    feedbackSection.style.display = "block";
-
-    // Reset feedback buttons
-    document.getElementById("thumbsUp").disabled = false;
-    document.getElementById("thumbsDown").disabled = false;
-    document.getElementById("feedbackMessage").style.display = "none";
-
-    uploadedImage.onload = () => {
-      // Calculate the result container height dynamically
-      const resultContainer = document.querySelector(".result-container");
-      const imageHeight = uploadedImage.naturalHeight;
-      const baseHeight = 200; // Minimum height for text and padding
-      let adjustedHeight = baseHeight + imageHeight; // Adjust as needed
-      // Log the values to the console
-      console.log("Image Height:", imageHeight);
-      console.log("Base Height:", baseHeight);
-
-      adjustedHeight = 600;
-      console.log("Adjusted Height:", adjustedHeight);
-      resultContainer.style.height = `${adjustedHeight}px`;
-      resultContainer.style.display = "block";
-    };
-  });
-});
+    Swal.close();
+  } catch (error) {
+    console.error("Error uploading file:", error);
+    Swal.fire({
+      icon: "error",
+      title: "Upload Failed",
+      text: "There was an error uploading the file. Please try again.",
+    });
+  }
+};
 
 // --------------------------------------- Review Button Functionality -------------------------------------------
 
