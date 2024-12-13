@@ -4,10 +4,11 @@ from transformers import ViTImageProcessor, ViTForImageClassification, BitImageP
 import torch
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import UploadFile, File, HTTPException, Request, Form
-from fastapi.responses import JSONResponse
+from fastapi.responses import Response
 import os
 import pandas as pd
 import PIL
+import json
 
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 DEVICE = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
@@ -35,7 +36,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://127.0.0.1:5500/"],  # This allows all origins
+    allow_origins=["http://127.0.0.1:5500"],  # This allows all origins
     allow_credentials=True,
     allow_methods=["*"],  # Allows all HTTP methods
     allow_headers=["*"],  # Allows all headers
@@ -52,6 +53,10 @@ def get_description_by_index(file_path, row_index):
         if len(parts) == 2:
             return parts[1]  # Return the description part (everything after the ID)
     return None  # Return None if the index is invalid
+
+@app.options("/api/upload")
+async def preflight():
+    return {"message": "Preflight OK"}
 
 @app.post("/api/upload")
 async def upload(file: UploadFile = File(...), model: str = Form(...)):
@@ -86,9 +91,10 @@ async def upload(file: UploadFile = File(...), model: str = Form(...)):
         description = get_description_by_index("LOC_synset_mapping.txt", predicted_class)
         print(description)
         print(predicted_class)
-        response = JSONResponse(content={"success": True, "confidence": confidence, "description": description, "ok":True}, status_code=200)
-        print(response.body)
-        return response
+        response = {"success": True, "confidence": confidence, "description": description}
+        # print(response.body)
+        json_str = json.dumps(response, indent=4, default=str)
+        return Response(content=json_str)   
     except Exception as e:
         print(str(e))
         raise HTTPException(status_code=500, detail={"message": f"Error uploading image: {str(e)}", "success": False})
@@ -102,5 +108,7 @@ async def funny(request: Request):
 @app.get("/")
 async def root():
     return "Hello World!"
+
+
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)

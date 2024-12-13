@@ -125,11 +125,12 @@ removeButton.addEventListener("click", () => {
 
 // ----------------------------------------- Analyze Button Functionality ---------------------------------------------------
 
-document.getElementById("analyzeButton").addEventListener("click", () => {
-  uploadFile();
+document.getElementById("analyzeButton").addEventListener("click", (e) => {
+  uploadFile(e);
 });
 
 const uploadFile = async () => {
+  // e.preventDefault();
   const fileInput = document.querySelector("#imageUpload");
   const file = fileInput.files[0];
   const modelSelector = document.getElementById("modelSelector");
@@ -168,14 +169,22 @@ const uploadFile = async () => {
 
     const response = await fetch("http://localhost:8000/api/upload", {
       method: "POST",
-      body: formData,
+      // headers: {
+      //   "Content-Type": "application/json", // Specify JSON data format
+      // },
+      body: formData
+      // mode: "no-cors",
     });
+    console.log("shit is crazy");
+    // if (response == null) {
+    //   console.log("response is null");
+    // }
 
-    if (!response.ok) {
-      throw new Error(`Server Error: ${response.status}`);
-    }
+    // if (!response.ok) {
+    //   throw new Error(`Server Error: ${response.status}`);
+    // }
 
-    const data = await response.json();
+    const data = await response.text();
     console.log("File uploaded successfully:", data);
 
     // Update UI with server response
