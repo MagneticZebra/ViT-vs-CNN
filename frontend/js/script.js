@@ -153,8 +153,8 @@ const uploadFile = async () => {
   }
 
   const formData = new FormData();
-  formData.append("file", file);
-  formData.append("model", modelSelector.value);
+  formData.append("file", file); // Add the file
+  formData.append("model", modelSelector.value); // Add the selected model
 
   try {
     Swal.fire({
@@ -169,9 +169,8 @@ const uploadFile = async () => {
     const response = await fetch("http://localhost:8000/api/upload", {
       method: "POST",
       body: formData,
-      mode: "no-cors",
-    })
-    console.log(response);
+    });
+
     if (!response.ok) {
       throw new Error(`Server Error: ${response.status}`);
     }
@@ -179,7 +178,7 @@ const uploadFile = async () => {
     const data = await response.json();
     console.log("File uploaded successfully:", data);
 
-    // Update the UI
+    // Update UI with server response
     document.getElementById("uploadedImage").src = URL.createObjectURL(file);
     document.getElementById("prediction").textContent =
       data.prediction || "N/A";
