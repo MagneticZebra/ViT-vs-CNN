@@ -26,7 +26,7 @@
                     <div class="drag-drop" id="dragDrop">
                         <div class="icon" id="uploadIcon">📁</div>
                         <p id="uploadText">Drag & Drop your image here or click to upload</p>
-                        <input type="file" id="imageUpload" accept="image/*">
+                        <input type="file" id="imageUpload" accept="image/jpeg">
                         <div class="progress-bar" id="progressBar" style="display: none;">
                             <div class="progress" id="progress"></div>
                         </div>
@@ -49,10 +49,14 @@
             <div class="container result-container" style="display: none;">
                 <h2>Analysis Results</h2>
                 <div class="result-details">
-                    <img id="uploadedImage" src="" alt="Uploaded Image">
-                    <p><strong>Prediction:</strong> <span id="prediction">N/A</span></p>
-                    <p><strong>Confidence:</strong> <span id="confidence">N/A</span>%</p>
-                    <p><strong>Model:</strong> <span id="modelUsed">N/A</span></p>
+                    <div class="image-container">
+                        <img id="uploadedImage" src="" alt="Uploaded Image">
+                    </div>
+                    <div class="text-container">
+                        <p><strong>Prediction:</strong> <span id="prediction">N/A</span></p>
+                        <p><strong>Confidence:</strong> <span id="confidence">N/A</span>%</p>
+                        <p><strong>Model:</strong> <span id="modelUsed">N/A</span></p>
+                    </div>
                 </div>
                 <div class="feedback-section" id="feedbackSection" style="display: none;">
                     <h3>Was the prediction accurate?</h3>
@@ -78,8 +82,6 @@
                 </div>
             </div>
         </div>
-        
-        
     </main>
     
     <footer>
