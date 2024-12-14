@@ -197,6 +197,8 @@ const uploadFile = async () => {
       Number((data.confidence * 100).toFixed(4)) || "0";
     document.getElementById("modelUsed").textContent = data.model || "Unknown";
     document.querySelector(".result-container").style.display = "block";
+    document.querySelector(".result-container").style.height = "600px"; // Set the height dynamically
+
     document.querySelector(".feedback-section").style.display = "block";
 
     // --------------------------------------------------------------------------------------------------------------------------
