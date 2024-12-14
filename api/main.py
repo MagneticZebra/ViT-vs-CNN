@@ -91,7 +91,7 @@ async def upload(file: UploadFile = File(...), model: str = Form(...)):
         description = get_description_by_index("LOC_synset_mapping.txt", predicted_class)
         print(description)
         print(predicted_class)
-        response = {"success": True, "confidence": confidence, "description": description}
+        response = {"success": True, "confidence": confidence, "description": description, "model": model}
         # print(response.body)
         json_str = json.dumps(response, indent=4, default=str)
         return Response(content=json_str)   
