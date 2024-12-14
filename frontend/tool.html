@@ -1,93 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ML Model Comparison</title>
-    <link rel="stylesheet" href="css/tool.css">
+    <link rel="stylesheet" href="css/tool.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<body>
+  </head>
+  <body>
     <header>
-        <nav class="navbar">
-            <h1>ML Model Project</h1>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="tool.html" class="active">ML Comparison Tool</a></li>
-                <li><a href="developers.html">Developers</a></li>
-            </ul>
-        </nav>
+      <nav class="navbar">
+        <h1>ML Model Project</h1>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="tool.html" class="active">ML Comparison Tool</a></li>
+          <li><a href="developers.html">Developers</a></li>
+        </ul>
+      </nav>
     </header>
     <main class="content">
-        <div class="container-wrapper">
-            <div class="container upload-container">
-                <div class="upload-section">
-                    <h2>Upload an Image</h2>
-                    <div class="drag-drop" id="dragDrop">
-                        <div class="icon" id="uploadIcon">📁</div>
-                        <p id="uploadText">Drag & Drop your image here or click to upload</p>
-                        <input type="file" id="imageUpload" accept="image/jpeg">
-                        <div class="progress-bar" id="progressBar" style="display: none;">
-                            <div class="progress" id="progress"></div>
-                        </div>
-                    </div>
-                    <button id="removeImage" style="display: none;">Remove Image</button>
-                </div>
-    
-                <div class="model-selection">
-                    <h2>Select a Model</h2>
-                    <div class="select-container">
-                        <select id="modelSelector">
-                            <option value="convnet">ConvNet Model</option>
-                            <option value="transformer">Transformer Model</option>
-                        </select>
-                    </div>
-                    <button id="analyzeButton">Analyze Image</button>
-                </div>
-            </div>          
-    
-            <div class="container result-container" style="display: none;">
-                <h2>Analysis Results</h2>
-                <div class="result-details">
-                    <div class="image-container">
-                        <img id="uploadedImage" src="" alt="Uploaded Image">
-                    </div>
-                    <div class="text-container">
-                        <p><strong>Prediction:</strong> <span id="prediction">N/A</span></p>
-                        <p><strong>Confidence:</strong> <span id="confidence">N/A</span>%</p>
-                        <p><strong>Model:</strong> <span id="modelUsed">N/A</span></p>
-                    </div>
-                </div>
-                <div class="feedback-section" id="feedbackSection" style="display: none;">
-                    <h3>Was the prediction accurate?</h3>
-                    <div class="feedback-buttons">
-                        <button id="thumbsUp" class="feedback-button">👍 Yes</button>
-                        <button id="thumbsDown" class="feedback-button">👎 No</button>
-                    </div>
-                    <p id="feedbackMessage" style="display: none; margin-top: 10px; color: #BB86FC;">Thank you for your feedback!</p>
-                </div>
+      <div class="container-wrapper">
+        <div class="container upload-container">
+          <div class="upload-section">
+            <h2>Upload an Image</h2>
+            <div class="drag-drop" id="dragDrop">
+              <div class="icon" id="uploadIcon">📁</div>
+              <p id="uploadText">
+                Drag & Drop your image here or click to upload
+              </p>
+              <input type="file" id="imageUpload" accept="image/jpeg" />
+              <div class="progress-bar" id="progressBar" style="display: none">
+                <div class="progress" id="progress"></div>
+              </div>
             </div>
+            <button id="removeImage" style="display: none">Remove Image</button>
+          </div>
+
+          <div class="model-selection">
+            <h2>Select a Model</h2>
+            <div class="select-container">
+              <select id="modelSelector">
+                <option value="convnet">ConvNet Model</option>
+                <option value="transformer">Transformer Model</option>
+              </select>
+            </div>
+            <button type="submit" id="analyzeButton">Analyze Image</button>
+          </div>
         </div>
 
-        <div class="graphs-section">
-            <h3>Model Performance</h3>
-            <div class="graph-container">
-                <div class="model-graph">
-                    <canvas id="convnetChart"></canvas>
-                    <p id="convnetAccuracy">ConvNet: Right 0% of the time</p>
-                </div>
-                <div class="model-graph">
-                    <canvas id="transformerChart"></canvas>
-                    <p id="transformerAccuracy">Transformer: Right 0% of the time</p>
-                </div>
+        <div class="container result-container" style="display: none">
+          <h2>Analysis Results</h2>
+          <div class="result-details">
+            <div class="image-container">
+              <img id="uploadedImage" src="" alt="Uploaded Image" />
             </div>
+            <div class="text-container">
+              <p>
+                <strong>Prediction:</strong> <span id="prediction">N/A</span>
+              </p>
+              <p>
+                <strong>Confidence:</strong> <span id="confidence">N/A</span>%
+              </p>
+              <p><strong>Model:</strong> <span id="modelUsed">N/A</span></p>
+            </div>
+          </div>
+          <div
+            class="feedback-section"
+            id="feedbackSection"
+            style="display: none"
+          >
+            <h3>Was the prediction accurate?</h3>
+            <div class="feedback-buttons">
+              <button id="thumbsUp" class="feedback-button">👍 Yes</button>
+              <button id="thumbsDown" class="feedback-button">👎 No</button>
+            </div>
+            <p
+              id="feedbackMessage"
+              style="display: none; margin-top: 10px; color: #bb86fc"
+            >
+              Thank you for your feedback!
+            </p>
+          </div>
         </div>
+      </div>
+
+      <div class="graphs-section">
+        <h3>Model Performance</h3>
+        <div class="graph-container">
+          <div class="model-graph">
+            <canvas id="convnetChart"></canvas>
+            <p id="convnetAccuracy">ConvNet: Right 0% of the time</p>
+          </div>
+          <div class="model-graph">
+            <canvas id="transformerChart"></canvas>
+            <p id="transformerAccuracy">Transformer: Right 0% of the time</p>
+          </div>
+        </div>
+      </div>
     </main>
-    
+
     <footer>
-        <p>&copy; 2024 ML Project - Designed by David Houle-Tymeczko, David Dabreo, Siddhant Das, Huzefa Paliwala, and Robert Pianezza</p>
+      <p>
+        &copy; 2024 ML Project - Designed by David Houle-Tymeczko, David Dabreo,
+        Siddhant Das, Huzefa Paliwala, and Robert Pianezza
+      </p>
     </footer>
     <script src="js/script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-</body>
+  </body>
 </html>

@@ -6,6 +6,7 @@ const progressBar = document.getElementById("progressBar");
 const progress = document.getElementById("progress");
 const removeButton = document.getElementById("removeImage");
 
+// Progress bar function
 function simulateProgress(callback) {
   let progressValue = 0;
   progress.style.width = "0%";
@@ -22,6 +23,7 @@ function simulateProgress(callback) {
   }, 100);
 }
 
+// Disabled state for upload box
 function disableUpload() {
   dragDrop.classList.add("uploaded");
   dragDrop.style.pointerEvents = "none";
@@ -32,6 +34,7 @@ function disableUpload() {
   removeButton.style.display = "block"; // Show the remove button
 }
 
+// Enabled state for upload box
 function enableUpload() {
   dragDrop.classList.remove("uploaded");
   dragDrop.style.pointerEvents = "auto";
@@ -44,6 +47,7 @@ function enableUpload() {
   progressBar.style.display = "none"; // Hide progress bar
 }
 
+// ----------------------------------------------- Drag and drop functionality --------------------------------------------------------
 const dragDropArea = document.getElementById("dragDrop");
 
 dragDropArea.addEventListener("drop", (event) => {
@@ -125,11 +129,12 @@ removeButton.addEventListener("click", () => {
 
 // ----------------------------------------- Analyze Button Functionality ---------------------------------------------------
 
-document.getElementById("analyzeButton").addEventListener("click", () => {
-  uploadFile();
+document.getElementById("analyzeButton").addEventListener("click", (e) => {
+  uploadFile(e);
 });
 
 const uploadFile = async () => {
+  // e.preventDefault();
   const fileInput = document.querySelector("#imageUpload");
   const file = fileInput.files[0];
   const modelSelector = document.getElementById("modelSelector");
@@ -168,23 +173,45 @@ const uploadFile = async () => {
 
     const response = await fetch("http://localhost:8000/api/upload", {
       method: "POST",
+      // headers: {
+      //   "Content-Type": "application/json", // Specify JSON data format
+      // },
       body: formData,
+      // mode: "no-cors",
     });
+    // if (response == null) {
+    //   console.log("response is null");
+    // }
 
-    if (!response.ok) {
-      throw new Error(`Server Error: ${response.status}`);
-    }
+    // if (!response.ok) {
+    //   throw new Error(`Server Error: ${response.status}`);
+    // }
 
     const data = await response.json();
     console.log("File uploaded successfully:", data);
 
     // Update UI with server response
     document.getElementById("uploadedImage").src = URL.createObjectURL(file);
-    document.getElementById("prediction").textContent =
-      data.prediction || "N/A";
-    document.getElementById("confidence").textContent = data.confidence || "0";
+    document.getElementById("prediction").textContent = data.description;
+    document.getElementById("confidence").textContent =
+      Number((data.confidence * 100).toFixed(4)) || "0";
     document.getElementById("modelUsed").textContent = data.model || "Unknown";
     document.querySelector(".result-container").style.display = "block";
+    document.querySelector(".feedback-section").style.display = "block";
+
+    // --------------------------------------------------------------------------------------------------------------------------
+    // Fetch data from FastAPI backend
+    fetch("http://localhost:8000/api/upload")
+      .then((response) => response.json())
+      .then((data) => {
+        // Display the fetched data on the frontend
+        const dataContainer = document.getElementById("result-container");
+        dataContainer.innerHTML = `<p>${data.title}</p><p>${data.description}</p>`;
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+    // -------------------------------------------------------------------------------------------------------------------------
 
     Swal.close();
   } catch (error) {
