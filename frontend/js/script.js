@@ -194,7 +194,7 @@ const uploadFile = async () => {
     document.getElementById("uploadedImage").src = URL.createObjectURL(file);
     document.getElementById("prediction").textContent = data.description;
     document.getElementById("confidence").textContent =
-      data.confidence * 100 || "0";
+      Number((data.confidence * 100).toFixed(4)) || "0";
     document.getElementById("modelUsed").textContent = data.model || "Unknown";
     document.querySelector(".result-container").style.display = "block";
     document.querySelector(".feedback-section").style.display = "block";
