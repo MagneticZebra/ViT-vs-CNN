@@ -19,7 +19,8 @@ Welcome to the **ML Model Comparison Tool**, an interactive platform designed to
    - Rate model predictions as accurate or inaccurate with thumbs-up or thumbs-down.
 - **Minimalistic Design**:
    - Sleek user interface with smooth animations.
-
+- **Efficient server processing**:
+   - A robust REST API server system to serve the frontend UI.
 ---
 
 ## 🚀 How It Works
@@ -43,6 +44,7 @@ Welcome to the **ML Model Comparison Tool**, an interactive platform designed to
 ## 🔧 Technology Stack
 
 - **Frontend**: HTML, CSS, JavaScript
+- **Backend**: FastAPI, Python, transformers
 - **Dynamic Animations**: ScrollReveal.js for smooth scrolling effects
 - **Graphs**: Chart.js for real-time performance tracking
 - **Alerts**: SweetAlert2 for interactive feedback pop-ups
@@ -55,4 +57,18 @@ Welcome to the **ML Model Comparison Tool**, an interactive platform designed to
 1. **Clone the Repository**:
    ```bash
    git clone https://github.com/your-username/ML-Model-Comparison-Tool.git
-   cd ML-Model-Comparison-Tool
+   cd ML-Model-Comparison-Tool```
+1.5. (Optional) Create a virtual environment
+2. Install all the packages
+   ```bash
+   pip install requirements.txt
+   ```
+3. Run api/main.py
+4. Open live server settings.json and change the value to:
+```
+"liveServer.settings.ignoreFiles":
+[
+"**"
+]
+```
+5. Open index.html in vscode and run it as live server.
