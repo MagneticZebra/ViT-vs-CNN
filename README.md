@@ -1,3 +1,6 @@
+![image](https://github.com/user-attachments/assets/af279419-84e8-45f1-886a-e2af03cad945)
+## Link to our demo: https://www.youtube.com/watch?v=kWseBk3hs6Y&list=LL&index=1&t=7s
+
 # 🧠 ML Model Comparison Tool
 
 Welcome to the **ML Model Comparison Tool**, an interactive platform designed to showcase and compare the power of the **Convolutional Neural Networks (ConvNet)** and **Transformer models**. This project offers an engaging way to dive into machine learning by uploading images, analyzing predictions, and comparing model performances.
